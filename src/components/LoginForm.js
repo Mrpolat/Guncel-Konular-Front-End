@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
+import RegisterForm from './RegisterForm';
 
 function LoginForm({Login,error}) {
     const[details, setDetails]=useState({name:"", email:"", password:""});
+    const[register,setRegister]=useState(false);
+
+    const registerHandler = () =>{
+        setRegister(true);
+    }
 
     const submitHandler = e =>{
         e.preventDefault(this);
-
+        
         Login(details);
     }
+
     return (
         <form onSubmit={submitHandler}>
+            {(register===false)?(
             <div className="form-inner">
 
                 <h2>Login</h2>
@@ -27,7 +35,9 @@ function LoginForm({Login,error}) {
                     <input type="password" name="password" id="password" onChange={e => setDetails({...details, password:e.target.value})} value = {details.password}  />
                 </div> 
                 <input type="submit" value="Login"/>
+                <input style={{marginLeft:5}} type="button" value="Sing Up" onClick={registerHandler} />
             </div>
+            ): <RegisterForm/> }
         </form>
     )
 }

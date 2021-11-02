@@ -26,8 +26,7 @@ import LoginForm from './components/LoginForm';
     console.log("Başarısız...")
     setError("Giriş Başarısız")
   }
-
-
+  
   const Logout = () => {
     setUser({
       name: "",
