@@ -1,5 +1,7 @@
 import React , {useState} from 'react' 
 import LoginForm from './components/LoginForm';
+import MainPage from './components/MainPage';
+import RegisterForm from './components/RegisterForm';
 
  function App() {
    const adminUser= {
@@ -10,9 +12,10 @@ import LoginForm from './components/LoginForm';
   
   const [user,setUser]=useState({name:"", email:""});
   const[error,setError]=useState("");
-
+  const[regControl,setRegControl]=useState(false)
   const Login=details=> {
     console.log(details);
+
     
     if (details.email == adminUser.email && adminUser.password == details.password ){
     console.log("Başarılı...");
@@ -27,6 +30,11 @@ import LoginForm from './components/LoginForm';
     setError("Giriş Başarısız")
   }
   
+  const RegisterLogin=details=> {
+    console.log(details);
+    console.log("kayıt oluşturuldu")
+
+  }
   const Logout = () => {
     setUser({
       name: "",
@@ -34,18 +42,47 @@ import LoginForm from './components/LoginForm';
   
     });
   }
+    console.log(regControl)
+  console.log(setRegControl)
+  const Registerpage = e =>{
+    console.log(e)
+    setRegControl(e);
+
+  }
+  const exitHandler = e =>{
+    if(e==false){
+      setUser({
+        name: "",
+        email: ""
+    
+      });
+    }
+  }
 
 
+  console.log(regControl)
+  
   return (
     <div className="App">
-      {(user.email != "")? (
-       <div className="welcome">
-         <h2>Welcome, <span>{user.name}</span></h2>
-         <button onClick={Logout}>Logout</button>
-       </div>
-      ):
-      <LoginForm Login={Login} error={error}/>
+      {
+        (user.name!="")?(
+          <MainPage control={exitHandler}/>
+        ):
+        <div>
+        {
+          (regControl!=true)?(
+            <LoginForm 
+            Login={Login} 
+            control={Registerpage} 
+            error={error}/>
+          )
+          :
+          <RegisterForm Login={RegisterLogin} control={Registerpage}  
+          />
+        }
+        </div>
       }
+     
     </div>
   )
 }
