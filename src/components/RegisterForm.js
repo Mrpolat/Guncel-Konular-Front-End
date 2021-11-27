@@ -20,7 +20,7 @@ function RegisterForm({Login, control, error}) {
             <div className="form-inner">
 
                 <h2>Sign Up</h2>
-                {(error != "") ? (<div className="error">{error}</div>) : ""}
+                {(error !== "") ? (<div className="error">{error}</div>) : ""}
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>
                     <input type="text" name="name" id="name" onChange={e => setRegregDetails({ ...regDetails, name: e.target.value })} value={regDetails.name} />
@@ -45,4 +45,4 @@ function RegisterForm({Login, control, error}) {
     )
 }
 
-export default RegisterForm
+export default RegisterForm;
