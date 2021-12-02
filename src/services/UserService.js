@@ -1,28 +1,41 @@
-import React, { useState ,useEffect} from 'react'
 import axios from "axios";
-import { ReactDOM } from 'react';
-
-
 
 const USER_REST_API_URL = 'http://localhost:8081/user/login';
+const USER_REGISTER_URL ="http://localhost:8081/user/register";
+const USER_AUTH_URL = "http://localhost:8081/user/authentication";
 
+class UserService {
 
- function Logins(e){
+    constructor() {
+        this.state = {
+            veri:[],
+            dogrulama:""
+        };
+      }
 
-    const [veri, setVeri] = useState([]);
+    Logins(e){
+        axios.get(USER_REST_API_URL,e).then((response)=> {
+            this.setState({veri:response.data});
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+ };
+    Register(e){
+        axios.get(USER_REGISTER_URL,e).then((response)=> {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
 
-    useEffect(() => {
-        
-        fetch(USER_REST_API_URL,e)
-        .then(res=>res.json())
-        .then(
-                (Result)=>{
-                    this.setVeri(Result);
-                }
-        )
-        console.log("veriler",veri);
-    },[]);
-console.log("veriler: ",veri)
+    authentication(){
+        axios.get(USER_AUTH_URL).then((response)=> {
+            this.setState({dogrulama : response.data});
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    };
 }
-
-export default  Logins;
+export default new UserService();

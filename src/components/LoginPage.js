@@ -3,35 +3,50 @@ import LoginForm from './LoginForm';
 import MainPage from './MainPage';
 import RegisterForm from './RegisterForm';
 import UserService from '../services/UserService.js';
-import Logins from '../services/UserService.js';
 
 function LoginPage() {
 
-  const [user, setUser] = useState({ user_name: "", password: "" });
+  const [user, setUser] = useState({ user_email: "", password: "" });
+  const [register, setRegister] = useState([]);
   const [userControl, setUserControl] = useState([])
   const [regControl, setRegControl] = useState(false)
 
   const Login = details => {
     setUser({
-      user_name: details.name,
+      user_email: details.email,
       password: details.password
     });
   }
 
   const componentDidMount = () => {
-        Logins(user)
+    UserService.Logins(user)
+    setUserControl(UserService.state.veri)
+  }
 
-    }
-
-  if (user.user_name !== "") {
+  if (user.user_email !== "") {
     componentDidMount();
   }
- 
-  
 
   const RegisterLogin = details => {
-      console.log(details)
+    setRegister(details)
+    console.log(details)
     console.log("kayıt oluşturuldu")
+  }
+
+  const registerDataRequest = () => {
+    UserService.Register(register)
+  }
+
+  if (register.email !== "") {
+    registerDataRequest();
+  }
+
+  const exitHandler = e => {
+    if (e == false) {
+      setUser({
+        user_email: ""
+      });
+    }
   }
 
   const Registerpage = e => {
@@ -39,18 +54,10 @@ function LoginPage() {
     setRegControl(e);
   }
 
-  const exitHandler = e => {
-    if (e == false) {
-      setUser({
-        user_name: ""
-      });
-    }
-  }
-
   return (
     <div className="App">
       {
-        (user.user_name != "") ? (
+        (user.user_email===userControl.email) ? (
           <MainPage control={exitHandler} />
         ) :
           <div>
@@ -59,7 +66,7 @@ function LoginPage() {
                 <LoginForm
                   Login={Login}
                   control={Registerpage}
-                  error={"giriş başarısız"} />
+                  error={""} />
               )
                 :
                 <RegisterForm Login={RegisterLogin} control={Registerpage}
